@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
-import SignInSide from './component/SignInSide';
-import SignUp from './component/SignUp';
+import Blog from './component/common/Blog';
+import SignInSide from './component/signIn/SignInSide';
+import SignUp from './component/signIn/SignUp';
 
 export const BlogRouter = () => {
     return (
@@ -9,6 +10,7 @@ export const BlogRouter = () => {
                 <Route path="/" element={<SignInSide />} />
                 <Route path="/signup" element={<SignUp />} />
                 <Route path="/signin" element={<SignInSide />} />
+                <Route path="/main" element={<Blog />} />
             </Routes>
         </BrowserRouter>
     );
