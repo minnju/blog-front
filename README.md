@@ -1,46 +1,45 @@
-# Getting Started with Create React App
+# 기술스택
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+front: react
 
-## Available Scripts
+back-end: spring boot, spring security
 
-In the project directory, you can run:
+db: mysql
 
-### `npm start`
+설계도구: notion, figma
+notion: https://happymandu.notion.site/99aac9224e414673b0b9f93ae99757b9?v=17c50f2206554da3aa35a758df8bef72&pvs=4
+# 구현 내용
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 로그인
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+id,password 로그인
 
-### `npm test`
+소셜 로그인 지원
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 회원가입
 
-### `npm run build`
+약관을 동의한 후 민주 블로그에 회원가입 가능
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+약관은 민주의 친구로서 조항으로 구성될것이고 이에 대해 동의를 구하는 내용임
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 홈화면
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+좌측에 블로그 소개 및 메뉴
 
-### `npm run eject`
+우측에 게시글 목록이 보인다.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## My Profile
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+나에 대한 소개를 볼 수 있다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 게시판
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+게시글을 등록,삭제,수정할 수 있다.
 
-## Learn More
+댓글을 남길 수 있다.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+게시글에 좋아요를 남길 수 있다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 참고할 자료
+
+https://www.youtube.com/playlist?list=PLbq5jHjpmq7q-Td2jOXtpf7SD5c53RqXh
