@@ -13,6 +13,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import minjuImage from '../../images/picture_minju.jpeg';
+import { User } from '@/interface/userInfo';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { encodeBase64 } from '../../util/stringUtil';
+import { login } from '../../api/userApi';
+import { useNavigate } from 'react-router-dom';
+import { ApiResponse } from '@/interface/commonInterface';
 export {};
 
 function Copyright(props: any) {
@@ -32,13 +38,22 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+    const navigate = useNavigate();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<User>();
+
+    const onSubmit: SubmitHandler<User> = (data) => {
+        const userInfo: User = data;
+        //userInfo.password = encodeBase64(userInfo.password);
+        //userInfo.email = encodeBase64(userInfo.email);
+
+        const status = login(userInfo);
+        //console.log('result::' + result);
+        navigate('/main');
     };
 
     return (
@@ -74,26 +89,42 @@ export default function SignInSide() {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                        <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
                             <TextField
                                 margin="normal"
                                 required
                                 fullWidth
                                 id="email"
                                 label="Email Address"
-                                name="email"
                                 autoComplete="email"
                                 autoFocus
+                                {...register('email', {
+                                    required: 'Email is required',
+                                    pattern: {
+                                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                        message: 'Invalid email address',
+                                    },
+                                })}
+                                error={!!errors.email}
+                                helperText={errors.email ? errors.email.message : ''}
                             />
                             <TextField
                                 margin="normal"
                                 required
                                 fullWidth
-                                name="password"
                                 label="Password"
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                {...register('password', {
+                                    required: 'Password is required',
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Password must be at least 6 characters long',
+                                    },
+                                })}
+                                error={!!errors.password}
+                                helperText={errors.password ? errors.password.message : ''}
                             />
                             <FormControlLabel
                                 control={<Checkbox value="remember" color="primary" />}

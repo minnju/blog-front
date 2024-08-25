@@ -12,6 +12,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { User } from '@/interface/userInfo';
+import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Login } from '@mui/icons-material';
+import { registerMember } from '../../api/userApi';
+import { encodeBase64 } from '../../util/stringUtil';
 export {};
 
 function Copyright(props: any) {
@@ -31,13 +37,20 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<User>();
+
+    const onSubmit: SubmitHandler<User> = (data) => {
+        //console.log(data);
+        const userInfo: User = data;
+        console.log(userInfo);
+        userInfo.password = encodeBase64(userInfo.password);
+        userInfo.email = encodeBase64(userInfo.email);
+        console.log(userInfo);
+        registerMember(userInfo);
     };
 
     return (
@@ -58,27 +71,19 @@ export default function SignUp() {
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
+                                    //autoComplete="given-name"
+                                    id="name"
+                                    label="Name"
                                     required
                                     fullWidth
-                                    id="firstName"
-                                    label="First Name"
                                     autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
+                                    {...register('name', { required: 'Name is required' })}
+                                    error={!!errors.name}
+                                    helperText={errors.name ? errors.name.message : ''}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -87,19 +92,35 @@ export default function SignUp() {
                                     fullWidth
                                     id="email"
                                     label="Email Address"
-                                    name="email"
                                     autoComplete="email"
+                                    {...register('email', {
+                                        required: 'Email is required',
+                                        pattern: {
+                                            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                            message: 'Invalid email address',
+                                        },
+                                    })}
+                                    error={!!errors.email}
+                                    helperText={errors.email ? errors.email.message : ''}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     required
                                     fullWidth
-                                    name="password"
-                                    label="Password"
+                                    label="password"
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
+                                    {...register('password', {
+                                        required: 'Password is required',
+                                        minLength: {
+                                            value: 6,
+                                            message: 'Password must be at least 6 characters long',
+                                        },
+                                    })}
+                                    error={!!errors.password}
+                                    helperText={errors.password ? errors.password.message : ''}
                                 />
                             </Grid>
                             <Grid item xs={12}>
