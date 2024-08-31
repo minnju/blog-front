@@ -85,14 +85,5 @@ export const DELETE = async <T>(url: string, params?: Record<string, any>): Prom
 
 // 에러 핸들러
 const handleError = (error: AxiosError) => {
-    if (error.response) {
-        // 서버가 상태 코드로 응답한 경우
-        alert('Server Error:' + error.response.data);
-    } else if (error.request) {
-        // 요청이 만들어졌지만 응답이 없는 경우
-        alert('Network Error:' + error.request);
-    } else {
-        // 기타 오류
-        alert('Error:' + error.message);
-    }
+    alert('Error:' + error.message);
 };

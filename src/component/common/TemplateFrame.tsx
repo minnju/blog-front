@@ -13,6 +13,8 @@ import getBlogTheme from '../../theme/getBlogTheme';
 import ToggleColorMode from '../post/ToggleColorMode';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../api/userApi';
+import { useEffect } from 'react';
+import useApiStore from '../../store/useApiStore';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
     position: 'relative',
@@ -44,12 +46,18 @@ export default function TemplateFrame({
     toggleColorMode,
     children,
 }: TemplateFrameProps) {
+    const { isAuthorized } = useApiStore();
     const navigate = useNavigate();
 
     const handleChange = (event: SelectChangeEvent) => {
         toggleCustomTheme(event.target.value === 'custom');
     };
+
     const blogTheme = createTheme(getBlogTheme(mode));
+
+    useEffect(() => {
+        if (!isAuthorized) navigate('/signin');
+    }, [isAuthorized]);
 
     const goToSignUp = () => {
         logout();

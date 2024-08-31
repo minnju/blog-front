@@ -16,6 +16,10 @@ import { styled } from '@mui/material/styles';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import RssFeedRoundedIcon from '@mui/icons-material/RssFeedRounded';
 import usePostStore from '../../store/usePostStore';
+import { useEffect, useState } from 'react';
+import { usePostList } from '../../hook/customPostHook';
+import { PostReq } from '@/interface/postInfo';
+//import { useFetchPosts } from '../../hook/postHook';
 
 const SyledCard = styled(Card)(({ theme }) => ({
     display: 'flex',
@@ -103,6 +107,16 @@ export function Search() {
 
 export default function MainContent() {
     const { mainPost } = usePostStore();
+    const [reqInfo, setReqInfo] = useState<PostReq>({ postId: 1 });
+    //useFetchPosts(req);
+    useEffect(() => {
+        console.log('mainPost', mainPost);
+    }, [mainPost]);
+
+    usePostList(reqInfo);
+
+    //useFetchPosts(reqInfo);
+
     const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(null);
 
     const handleFocus = (index: number) => {
@@ -116,6 +130,10 @@ export default function MainContent() {
     const handleClick = () => {
         console.info('You clicked the filter chip.');
     };
+
+    if (!mainPost || mainPost.length === 0) {
+        return null;
+    }
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>

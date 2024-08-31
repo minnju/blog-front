@@ -19,6 +19,8 @@ import { encodeBase64 } from '../../util/stringUtil';
 import { login } from '../../api/userApi';
 import { useNavigate } from 'react-router-dom';
 import { ApiResponse } from '@/interface/commonInterface';
+import { useEffect } from 'react';
+import useApiStore from '../../store/useApiStore';
 export {};
 
 function Copyright(props: any) {
@@ -38,6 +40,10 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
+    const { isAuthorized } = useApiStore();
+    useEffect(() => {
+        if (isAuthorized) navigate('/main');
+    }, [isAuthorized]);
     const navigate = useNavigate();
 
     const {
@@ -52,8 +58,6 @@ export default function SignInSide() {
         //userInfo.email = encodeBase64(userInfo.email);
 
         const status = login(userInfo);
-        //console.log('result::' + result);
-        navigate('/main');
     };
 
     return (
