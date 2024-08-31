@@ -41,6 +41,7 @@ export const post = <T>(url: string, data?: Record<string, any>, type?: ContentT
             headers: {
                 'Content-Type': contentType,
             },
+            withCredentials: true,
         })
         .then((response: AxiosResponse<T>) => {
             const res: ApiResponse<T> = {

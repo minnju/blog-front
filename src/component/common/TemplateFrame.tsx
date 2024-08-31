@@ -11,6 +11,8 @@ import Toolbar from '@mui/material/Toolbar';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import getBlogTheme from '../../theme/getBlogTheme';
 import ToggleColorMode from '../post/ToggleColorMode';
+import { useNavigate } from 'react-router-dom';
+import { logout } from '../../api/userApi';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
     position: 'relative',
@@ -42,10 +44,17 @@ export default function TemplateFrame({
     toggleColorMode,
     children,
 }: TemplateFrameProps) {
+    const navigate = useNavigate();
+
     const handleChange = (event: SelectChangeEvent) => {
         toggleCustomTheme(event.target.value === 'custom');
     };
     const blogTheme = createTheme(getBlogTheme(mode));
+
+    const goToSignUp = () => {
+        logout();
+        navigate('/signin');
+    };
 
     return (
         <ThemeProvider theme={blogTheme}>
@@ -64,17 +73,18 @@ export default function TemplateFrame({
                         <Button
                             variant="text"
                             size="small"
-                            aria-label="Back to templates"
+                            aria-label="logout"
                             startIcon={<ArrowBackRoundedIcon />}
                             component="a"
-                            href="/material-ui/getting-started/templates/"
+                            //href="/material-ui/getting-started/templates/"
+                            onClick={goToSignUp}
                             sx={{ display: { xs: 'none', sm: 'flex' } }}
                         >
-                            Back to templates
+                            logout
                         </Button>
                         <IconButton
                             size="small"
-                            aria-label="Back to templates"
+                            aria-label="logout"
                             component="a"
                             href="/material-ui/getting-started/templates/"
                             sx={{ display: { xs: 'auto', sm: 'none' } }}
