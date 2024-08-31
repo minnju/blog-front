@@ -3,6 +3,7 @@ import { User } from '@/interface/userInfo';
 import { post } from '../util/restUtil';
 
 export const login = (userInfo: User) => {
+    
     post<User>('/login', userInfo, ContentType.FORM_URLENCODED)
         .then((apiResponse) => {
             // apiResponse는 ApiResponse<User> 타입
@@ -11,6 +12,7 @@ export const login = (userInfo: User) => {
         })
         .catch((error) => {
             console.error('Error:', error);
+            window.location.href=""
         });
 };
 
