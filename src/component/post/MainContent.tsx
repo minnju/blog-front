@@ -19,6 +19,8 @@ import usePostStore from '../../store/usePostStore';
 import { useEffect, useState } from 'react';
 import { usePostList } from '../../hook/customPostHook';
 import { PostReq } from '@/interface/postInfo';
+import Profile from '../profile/Profile';
+import PostList from './PostList';
 //import { useFetchPosts } from '../../hook/postHook';
 
 const SyledCard = styled(Card)(({ theme }) => ({
@@ -106,34 +108,11 @@ export function Search() {
 }
 
 export default function MainContent() {
-    const { mainPost } = usePostStore();
-    const [reqInfo, setReqInfo] = useState<PostReq>({ postId: 1 });
-    //useFetchPosts(req);
-    useEffect(() => {
-        console.log('mainPost', mainPost);
-    }, [mainPost]);
+    const [activeTab, setActiveTab] = React.useState<'postList' | 'profile'>('postList');
 
-    usePostList(reqInfo);
-
-    //useFetchPosts(reqInfo);
-
-    const [focusedCardIndex, setFocusedCardIndex] = React.useState<number | null>(null);
-
-    const handleFocus = (index: number) => {
-        setFocusedCardIndex(index);
+    const handleClick = (tab: 'postList' | 'profile') => {
+        setActiveTab(tab);
     };
-
-    const handleBlur = () => {
-        setFocusedCardIndex(null);
-    };
-
-    const handleClick = () => {
-        console.info('You clicked the filter chip.');
-    };
-
-    if (!mainPost || mainPost.length === 0) {
-        return null;
-    }
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -141,7 +120,10 @@ export default function MainContent() {
                 <Typography variant="h1" gutterBottom>
                     Blog
                 </Typography>
-                <Typography>Stay in the loop with the latest about our products</Typography>
+                <Typography>
+                    Welcome to my little corner! 🌟 I’m so glad you’re here.
+                    <br />I hope you have a fabulous day and enjoy your time exploring! 💖✨
+                </Typography>
             </div>
             <Box
                 sx={{
@@ -176,41 +158,22 @@ export default function MainContent() {
                         overflow: 'auto',
                     }}
                 >
-                    <Chip onClick={handleClick} size="medium" label="All categories" />
                     <Chip
-                        onClick={handleClick}
+                        onClick={() => handleClick('postList')}
                         size="medium"
-                        label="Company"
+                        label="Main Contents"
                         sx={{
-                            backgroundColor: 'transparent',
-                            border: 'none',
+                            backgroundColor: activeTab === 'postList' ? 'background.paper' : 'transparent',
+                            border: activeTab === 'postList' ? '' : 'none',
                         }}
                     />
                     <Chip
-                        onClick={handleClick}
+                        onClick={() => handleClick('profile')}
                         size="medium"
-                        label="Product"
+                        label="Profile"
                         sx={{
-                            backgroundColor: 'transparent',
-                            border: 'none',
-                        }}
-                    />
-                    <Chip
-                        onClick={handleClick}
-                        size="medium"
-                        label="Design"
-                        sx={{
-                            backgroundColor: 'transparent',
-                            border: 'none',
-                        }}
-                    />
-                    <Chip
-                        onClick={handleClick}
-                        size="medium"
-                        label="Engineering"
-                        sx={{
-                            backgroundColor: 'transparent',
-                            border: 'none',
+                            backgroundColor: activeTab === 'profile' ? 'background.paper' : 'transparent',
+                            border: activeTab === 'profile' ? '' : 'none',
                         }}
                     />
                 </Box>
@@ -229,182 +192,8 @@ export default function MainContent() {
                     </IconButton>
                 </Box>
             </Box>
-            <Grid container spacing={2} columns={12}>
-                <Grid size={{ xs: 12, md: 6 }}>
-                    <SyledCard
-                        variant="outlined"
-                        onFocus={() => handleFocus(0)}
-                        onBlur={handleBlur}
-                        tabIndex={0}
-                        className={focusedCardIndex === 0 ? 'Mui-focused' : ''}
-                    >
-                        <CardMedia
-                            component="img"
-                            alt="green iguana"
-                            image={mainPost[0].imageUrl}
-                            aspect-ratio="16 / 9"
-                            sx={{
-                                borderBottom: '1px solid',
-                                borderColor: 'divider',
-                            }}
-                        />
-                        <SyledCardContent>
-                            <Typography gutterBottom variant="h6" component="div">
-                                {mainPost[0].title}
-                            </Typography>
-                            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
-                                {mainPost[0].description}
-                            </StyledTypography>
-                        </SyledCardContent>
-                        <Author name={mainPost[0].authorNm} />
-                    </SyledCard>
-                </Grid>
-                <Grid size={{ xs: 12, md: 6 }}>
-                    <SyledCard
-                        variant="outlined"
-                        onFocus={() => handleFocus(1)}
-                        onBlur={handleBlur}
-                        tabIndex={0}
-                        className={focusedCardIndex === 1 ? 'Mui-focused' : ''}
-                    >
-                        <CardMedia
-                            component="img"
-                            alt="green iguana"
-                            image={mainPost[1].imageUrl}
-                            aspect-ratio="16 / 9"
-                            sx={{
-                                borderBottom: '1px solid',
-                                borderColor: 'divider',
-                            }}
-                        />
-                        <SyledCardContent>
-                            <Typography gutterBottom variant="h6" component="div">
-                                {mainPost[1].title}
-                            </Typography>
-                            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
-                                {mainPost[1].description}
-                            </StyledTypography>
-                        </SyledCardContent>
-                        <Author name={mainPost[1].authorNm} />
-                    </SyledCard>
-                </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                    <SyledCard
-                        variant="outlined"
-                        onFocus={() => handleFocus(2)}
-                        onBlur={handleBlur}
-                        tabIndex={0}
-                        className={focusedCardIndex === 2 ? 'Mui-focused' : ''}
-                        sx={{ height: '100%' }}
-                    >
-                        <CardMedia
-                            component="img"
-                            alt="green iguana"
-                            image={mainPost[2].imageUrl}
-                            sx={{
-                                height: { sm: 'auto', md: '50%' },
-                                aspectRatio: { sm: '16 / 9', md: '' },
-                            }}
-                        />
-                        <SyledCardContent>
-                            <Typography gutterBottom variant="h6" component="div">
-                                {mainPost[2].title}
-                            </Typography>
-                            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
-                                {mainPost[2].description}
-                            </StyledTypography>
-                        </SyledCardContent>
-                        <Author name={mainPost[2].authorNm} />
-                    </SyledCard>
-                </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, height: '100%' }}>
-                        <SyledCard
-                            variant="outlined"
-                            onFocus={() => handleFocus(3)}
-                            onBlur={handleBlur}
-                            tabIndex={0}
-                            className={focusedCardIndex === 3 ? 'Mui-focused' : ''}
-                            sx={{ height: '100%' }}
-                        >
-                            <SyledCardContent
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-between',
-                                    height: '100%',
-                                }}
-                            >
-                                <div>
-                                    <Typography gutterBottom variant="h6" component="div">
-                                        {mainPost[3].title}
-                                    </Typography>
-                                    <StyledTypography variant="body2" color="text.secondary" gutterBottom>
-                                        {mainPost[3].description}
-                                    </StyledTypography>
-                                </div>
-                            </SyledCardContent>
-                            <Author name={mainPost[3].authorNm} />
-                        </SyledCard>
-                        <SyledCard
-                            variant="outlined"
-                            onFocus={() => handleFocus(4)}
-                            onBlur={handleBlur}
-                            tabIndex={0}
-                            className={focusedCardIndex === 4 ? 'Mui-focused' : ''}
-                            sx={{ height: '100%' }}
-                        >
-                            <SyledCardContent
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-between',
-                                    height: '100%',
-                                }}
-                            >
-                                <div>
-                                    <Typography gutterBottom variant="h6" component="div">
-                                        {mainPost[4].title}
-                                    </Typography>
-                                    <StyledTypography variant="body2" color="text.secondary" gutterBottom>
-                                        {mainPost[4].description}
-                                    </StyledTypography>
-                                </div>
-                            </SyledCardContent>
-                            <Author name={mainPost[4].authorNm} />
-                        </SyledCard>
-                    </Box>
-                </Grid>
-                <Grid size={{ xs: 12, md: 4 }}>
-                    <SyledCard
-                        variant="outlined"
-                        onFocus={() => handleFocus(5)}
-                        onBlur={handleBlur}
-                        tabIndex={0}
-                        className={focusedCardIndex === 5 ? 'Mui-focused' : ''}
-                        sx={{ height: '100%' }}
-                    >
-                        <CardMedia
-                            component="img"
-                            alt="green iguana"
-                            image={mainPost[5].imageUrl}
-                            sx={{
-                                height: { sm: 'auto', md: '50%' },
-                                aspectRatio: { sm: '16 / 9', md: '' },
-                            }}
-                        />
-                        <SyledCardContent>
-                            <Typography gutterBottom variant="h6" component="div">
-                                {mainPost[5].title}
-                            </Typography>
-                            <StyledTypography variant="body2" color="text.secondary" gutterBottom>
-                                {mainPost[5].description}
-                            </StyledTypography>
-                        </SyledCardContent>
-                        <Author name={mainPost[5].authorNm} />
-                    </SyledCard>
-                </Grid>
-            </Grid>
+            {activeTab === 'postList' && <PostList />}
+            {activeTab === 'profile' && <Profile />}
         </Box>
     );
 }
