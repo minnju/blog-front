@@ -46,7 +46,7 @@ export default function TemplateFrame({
     toggleColorMode,
     children,
 }: TemplateFrameProps) {
-    const { isAuthorized } = useApiStore();
+    const { token } = useApiStore();
     const navigate = useNavigate();
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -56,12 +56,11 @@ export default function TemplateFrame({
     const blogTheme = createTheme(getBlogTheme(mode));
 
     useEffect(() => {
-        if (!isAuthorized) navigate('/signin');
-    }, [isAuthorized]);
+        if (!token) navigate('/signin');
+    }, [token]);
 
     const goToSignUp = () => {
         logout();
-        navigate('/signin');
     };
 
     return (

@@ -40,10 +40,12 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignInSide() {
-    const { isAuthorized } = useApiStore();
+    const { token, isAuthorized } = useApiStore();
+
     useEffect(() => {
-        if (isAuthorized) navigate('/main');
-    }, [isAuthorized]);
+        if (token) navigate('/main');
+    }, [token]);
+
     const navigate = useNavigate();
 
     const {

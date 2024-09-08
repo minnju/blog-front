@@ -5,6 +5,9 @@ interface ApiStore {
     isAuthorized: boolean;
     isLoading: boolean;
     error: string;
+    token: string | null; // token이 초기에는 null일 수 있음
+    setToken: (token: string) => void;
+    clearToken: () => void;
     setIsAuthorized: (isAuthorized: boolean) => void;
     setIsLoading: (isLoading: boolean) => void;
     setError: (error: string) => void;
@@ -16,6 +19,9 @@ const useApiStore = create<ApiStore>(
             isAuthorized: false,
             isLoading: false,
             error: '',
+            token: null,
+            setToken: (token: string) => set({ token }),
+            clearToken: () => set({ token: null }),
             setIsAuthorized: (isAuthorized: boolean) => set({ isAuthorized }),
             setIsLoading: (isLoading: boolean) => set({ isLoading }),
             setError: (error: string) => set({ error }),

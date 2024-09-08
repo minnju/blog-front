@@ -37,6 +37,7 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+    const [isChecked, setIsChecked] = useState(false);
     const {
         register,
         handleSubmit,
@@ -51,6 +52,10 @@ export default function SignUp() {
         userInfo.email = encodeBase64(userInfo.email);
         console.log(userInfo);
         registerMember(userInfo);
+    };
+
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsChecked(event.target.checked);
     };
 
     return (
@@ -123,14 +128,40 @@ export default function SignUp() {
                                     helperText={errors.password ? errors.password.message : ''}
                                 />
                             </Grid>
+
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="phoneNumber"
+                                    label="Phone Number"
+                                    placeholder="010-0000-0000"
+                                    autoComplete="tel"
+                                    {...register('phoneNumber', {
+                                        required: 'Phone number is required',
+                                        pattern: {
+                                            value: /^010-\d{4}-\d{4}$/,
+                                            message: 'Invalid phone number format. It should be 010-****-****',
+                                        },
+                                    })}
+                                    error={!!errors.phoneNumber}
+                                    helperText={errors.phoneNumber ? errors.phoneNumber.message : ''}
+                                />
+                            </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
+                                    control={
+                                        <Checkbox
+                                            value="allowExtraEmails"
+                                            color="primary"
+                                            onChange={handleCheckboxChange}
+                                        />
+                                    }
+                                    label="I'm one of Minju's friends, and I'm here to hype up her blog with all the love and support! 🙌 "
                                 />
                             </Grid>
                         </Grid>
-                        <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                        <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} disabled={!isChecked}>
                             Sign Up
                         </Button>
                         <Grid container justifyContent="flex-end">
