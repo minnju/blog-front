@@ -47,7 +47,6 @@ export default function Blog() {
             <ThemeProvider theme={showCustomTheme ? blogTheme : defaultTheme}>
                 <CssBaseline enableColorScheme />
 
-                <AppBar />
                 <Container
                     maxWidth="lg"
                     component="main"

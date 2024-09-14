@@ -5,6 +5,7 @@ export interface Post {
     content: string;
     imageUrl?: string;
     authorNm: string;
+    isMain?: boolean;
 }
 
 export interface PostReq {

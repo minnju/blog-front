@@ -8,6 +8,8 @@ import CardMedia from '@mui/material/CardMedia';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid2';
 import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
+
 import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -21,6 +23,7 @@ import { usePostList } from '../../hook/customPostHook';
 import { PostReq } from '@/interface/postInfo';
 import Profile from '../profile/Profile';
 import PostList from './PostList';
+import PostModal from './PostModal';
 //import { useFetchPosts } from '../../hook/postHook';
 
 const SyledCard = styled(Card)(({ theme }) => ({
@@ -108,10 +111,19 @@ export function Search() {
 }
 
 export default function MainContent() {
-    const [activeTab, setActiveTab] = React.useState<'postList' | 'profile'>('postList');
+    const [open, setOpen] = useState<boolean>(false);
+    const [activeTab, setActiveTab] = useState<'postList' | 'profile'>('postList');
 
     const handleClick = (tab: 'postList' | 'profile') => {
         setActiveTab(tab);
+    };
+
+    const handleModalClose = () => {
+        setOpen(false);
+    };
+
+    const handleModalOpen = () => {
+        setOpen(true);
     };
 
     return (
@@ -133,12 +145,7 @@ export default function MainContent() {
                     width: { xs: '100%', md: 'fit-content' },
                     overflow: 'auto',
                 }}
-            >
-                <Search />
-                <IconButton size="small" aria-label="RSS feed">
-                    <RssFeedRoundedIcon />
-                </IconButton>
-            </Box>
+            ></Box>
             <Box
                 sx={{
                     display: 'flex',
@@ -187,13 +194,14 @@ export default function MainContent() {
                     }}
                 >
                     <Search />
-                    <IconButton size="small" aria-label="RSS feed">
-                        <RssFeedRoundedIcon />
+                    <IconButton size="small" aria-label="RSS feed" onClick={handleModalOpen}>
+                        <AddIcon />
                     </IconButton>
                 </Box>
             </Box>
             {activeTab === 'postList' && <PostList />}
             {activeTab === 'profile' && <Profile />}
+            <PostModal open={open} handleClose={handleModalClose} />
         </Box>
     );
 }
