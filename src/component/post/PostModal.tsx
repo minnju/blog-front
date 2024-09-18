@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Dialog,
     DialogActions,
@@ -20,10 +20,20 @@ interface PostModalInterface {
 }
 
 export default function PostModal({ open, handleClose }: PostModalInterface) {
+    useEffect(() => {
+        reset({
+            isMain: false,
+            title: '',
+            content: '',
+            description: '',
+            imageUrl: '',
+        });
+    }, [open]);
     const {
         register,
         handleSubmit,
         formState: { errors },
+        reset,
     } = useForm<Post>({
         defaultValues: {
             isMain: false, // 초기값 설정
@@ -32,10 +42,13 @@ export default function PostModal({ open, handleClose }: PostModalInterface) {
         },
     });
 
-    const onSubmit: SubmitHandler<Post> = (data) => {
+    const onSubmit: SubmitHandler<Post> = async (data) => {
         //console.log(data);
         const postInfo: Post = data;
-        savePost(postInfo);
+        const res = await savePost(postInfo);
+        if (res === 200) {
+            handleClose();
+        }
     };
 
     return (

@@ -1,11 +1,11 @@
 import { ContentType } from '../enum/apiEnum';
 import { User } from '@/interface/userInfo';
 import { post } from '../util/restUtil';
-import { getStoreMethods } from '../store/useApiStore';
+import { getApiStoreMethods } from '../store/useApiStore';
 import getUserStoreMethods from '../store/useUserStore';
 
 export const login = async (userInfo: User) => {
-    const { setIsAuthorized, setToken, setError, setIsLoading } = getStoreMethods();
+    const { setIsAuthorized, setToken, setError, setIsLoading } = getApiStoreMethods();
     //const { setToken } = getUserStoreMethods();
     try {
         const apiResponse = await post<User>('/login', userInfo, ContentType.FORM_URLENCODED);
@@ -51,7 +51,7 @@ export const registerMember = async (userInfo: User) => {
 };
 
 export const logout = () => {
-    const { setIsAuthorized, clearToken, setError, setIsLoading } = getStoreMethods();
+    const { setIsAuthorized, clearToken, setError, setIsLoading } = getApiStoreMethods();
     //const { clearToken } = getUserStoreMethods();
     post<User>('/logout')
         .then((apiResponse) => {

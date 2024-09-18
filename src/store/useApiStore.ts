@@ -33,5 +33,5 @@ const useApiStore = create<ApiStore>(
     ) as StateCreator<ApiStore>
 );
 
-export const getStoreMethods = () => useApiStore.getState();
+export const getApiStoreMethods = () => useApiStore.getState();
 export default useApiStore;

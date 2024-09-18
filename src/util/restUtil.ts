@@ -2,7 +2,7 @@ import { ContentType } from '../enum/apiEnum';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { ApiResponse } from '@/interface/commonInterface';
 import useUserStore from '../store/useUserStore';
-import useApiStore, { getStoreMethods } from '../store/useApiStore';
+import useApiStore, { getApiStoreMethods } from '../store/useApiStore';
 
 // 기본 설정
 const instance = axios.create({
@@ -102,7 +102,7 @@ export const DELETE = async <T>(url: string, params?: Record<string, any>): Prom
 
 // 에러 핸들러
 const handleError = (error: AxiosError) => {
-    const { setIsAuthorized, clearToken, setError, setIsLoading } = getStoreMethods();
+    const { setIsAuthorized, clearToken, setError, setIsLoading } = getApiStoreMethods();
     console.log('errorcode', error.status);
     if (error.status === 403) {
         setIsAuthorized(false);
