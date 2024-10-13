@@ -41,16 +41,6 @@ export default function Profile() {
                         <br />- 기상청 방재다면플랫폼 프로젝트 (2024.03 - 현재)
                     </Typography>
                 </Box>
-
-                <Divider style={{ margin: '20px 0' }} />
-
-                <Box textAlign="left">
-                    <Typography variant="h6">Education</Typography>
-                    <Typography variant="body1" color="textSecondary">
-                        - 서강대학교 컴퓨터공학과 학사 (2017.02 - 2021.)
-                        {/* <br />- Degree at University (Year - Year) */}
-                    </Typography>
-                </Box>
             </Paper>
         </Container>
     );
